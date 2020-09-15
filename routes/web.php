@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'TopicController@index')->name('topics.index');
+
+Route::resource('topics', 'TopicController')->except(['index']);
+
+Route::post('comments/{topic}', 'CommentController@store')->name('comments.store');
+
+Route::post('comments/{comment}/reply', 'CommentController@storeCommentReply')->name('comments.storeReply');
+
+Route::post('topics/markedAsSolution/{topic}/{comment}', 'CommentController@markedAsSolution')->name('comments.markedAsSolution');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
