@@ -18,6 +18,8 @@ Route::get('/', 'TopicController@index')->name('topics.index');
 
 Route::resource('topics', 'TopicController')->except(['index']);
 
+Route::get('showFromNotification/{topic}/{notification}', 'TopicController@showFromNotification')->name('topics.showFromNotification');
+
 Route::post('comments/{topic}', 'CommentController@store')->name('comments.store');
 
 Route::post('comments/{comment}/reply', 'CommentController@storeCommentReply')->name('comments.storeReply');

@@ -53,7 +53,7 @@
                 <hr>
                 <h5 class="h5-responsive">Commentaires</h5>
                 @forelse ($topic->comments as $comment)
-                    <div class="card mb-3">
+                    <div class="card mb-3 @if($topic->solution == $comment->id) border border-success @endif">
                         <div class="card-body d-flex justify-content-between">
                             <div>
                                 {{ $comment->content }}
@@ -63,6 +63,11 @@
                                 </div>
                             </div>
                             <div>
+                                @guest
+                                    @if ($topic->solution == $comment->id)
+                                        <h4><span class="badge badge-success">Marqué comme solution</span></h4>
+                                    @endif
+                                @endguest
                                 @auth
                                     @if (!$topic->solution && auth()->user()->id == $topic->user_id)
                                         <solution-button topic-id="{{ $topic->id }}" comment-id="{{ $comment->id }}"></solution-button>

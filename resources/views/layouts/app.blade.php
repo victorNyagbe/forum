@@ -48,6 +48,23 @@
                                 </li>
                             @endif
                         @else
+                            @unless (auth()->user()->unreadNotifications->isEmpty())
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ auth()->user()->unreadNotifications->count() . ' notification(s)' }}
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        @foreach (auth()->user()->unreadNotifications as $notification)
+                                            
+                                                <a href="{{ route('topics.showFromNotification', ['topic' => $notification->data['topicId'], $notification->id]) }}" class="dropdown-item">
+                                                    {{ $notification->data['name'] }} a posté un commentaire sur <strong>{{ $notification->data['topicTitle'] }}</strong>
+                                                </a>
+                                            
+                                        @endforeach
+                                    </div>
+                                </li>
+                            @endunless
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
